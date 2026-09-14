@@ -1,0 +1,56 @@
+---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import EditableLink from "@/components/global/EditableLink.astro";
+import { getContent } from "@/lib/getContent";
+
+const links = [
+  { href: "#work", text: "Trabalho" },
+  { href: "#projects", text: "Projetos" },
+  { href: "#education", text: "Educação" },
+];
+---
+
+<nav class="bg-white dark:bg-base-950 fixed top-0 z-10 w-full">
+  <Wrapper variant="standard" class="py-2">
+    <div class="grid grid-cols-3 lg:grid-cols-4 items-start">
+      <a href="/" class="group -mt-1 flex">
+        <Logo
+          class="text-base-600 dark:text-base-300 text-xs tracking-tight font-base-900 transition-colors group-hover:text-accent-700 dark:group-hover:text-accent-400"
+        />
+      </a>
+      <Text
+        tag="p"
+        variant="textXS"
+        class="text-base-600 dark:text-base-300 tracking-tight font-base"
+      >
+        <span data-editable="nav.location">{getContent("nav.location", "Brazil, SP")}</span><br />
+        <span data-editable="nav.role">{getContent("nav.role", "developer")}</span>
+      </Text>
+      <div class="hidden lg:flex gap-8 text-sm items-center">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              data-cursor-magnetic
+              class="text-base-600 dark:text-base-300 tracking-tight text-xs transition-colors hover:text-accent-700 dark:hover:text-accent-400"
+            >
+              {link.text}
+            </a>
+          ))
+        }
+      </div>
+      <EditableLink
+        linkKey="nav.contact"
+        href="#contato"
+        data-cursor-magnetic
+        class="text-base-600 dark:text-base-300 text-xs tracking-tight font-base ml-auto transition-colors hover:text-accent-700 dark:hover:text-accent-400"
+      >
+        {getContent("nav.contact", "Contato")}
+      </EditableLink>
+    </div>
+  </Wrapper>
+</nav>

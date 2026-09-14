@@ -1,0 +1,38 @@
+---
+import "@/styles/global.css";
+import BaseHead from "@/components/fundations/head/BaseHead.astro";
+import contentOverrides from "@/data/content-overrides.json";
+// sections
+import Footer from "@/components/global/Footer.astro";
+import Navigation from "@/components/global/Navigation.astro";
+import PageLoader from "@/components/global/PageLoader.astro";
+import ScrollAnimations from "@/components/global/ScrollAnimations.astro";
+import CustomCursor from "@/components/global/CustomCursor";
+import EditModeButton from "@/components/global/EditModeButton";
+import EditLinkModal from "@/components/global/EditLinkModal";
+import ApplyContentOverrides from "@/components/global/ApplyContentOverrides.astro";
+---
+
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <BaseHead />
+    <script is:inline define:vars={{ contentOverrides }}>
+      window.__CONTENT_OVERRIDES__ = contentOverrides;
+    </script>
+  </head>
+  <body class="bg-white dark:bg-base-950 min-h-svh">
+    <ApplyContentOverrides />
+    <CustomCursor client:load />
+    <PageLoader />
+    <ScrollAnimations />
+    <div id="page-content">
+      <Navigation />
+      <main class="pb-12"><slot /></main>
+      <Footer />
+      <div aria-hidden="true" class="h-[12vh]"></div>
+    </div>
+    <EditModeButton client:load />
+    <EditLinkModal client:load />
+    
+  </body>
+</html>

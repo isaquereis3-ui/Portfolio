@@ -1,0 +1,90 @@
+---
+import defaultProjectImage from "@/images/projects/default.svg";
+import EditableImage from "@/components/landing/EditableImage.astro";
+import PortfolioMediaLink from "@/components/landing/PortfolioMediaLink.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { projectItems } from "@/data/portfolio";
+import { getContent } from "@/lib/getContent";
+
+const projectsEyebrowDefault = "Projetos em destaque Seus projetos";
+---
+
+<section class="scroll-mt-32" id="projects">
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-4 items-start">
+      <div class="lg:col-start-2">
+        <Text
+          tag="p"
+          variant="textSM"
+          class="text-base-600 dark:text-base-300"
+          data-editable="sections.projects.eyebrow"
+          >{getContent("sections.projects.eyebrow", projectsEyebrowDefault)}</Text
+        >
+      </div>
+      <Text
+        tag="h2"
+        variant="textXL"
+        class="font-semibold leading-snug text-left tracking-tighter lg:col-span-2 text-base-900 dark:text-white"
+        data-editable="sections.projects.title"
+      >
+        {getContent("sections.projects.title", "Projetos")}
+      </Text>
+    </div>
+
+    <div class="flex flex-col gap-12 mt-8">
+      {
+        projectItems.map((project) => (
+          <article class="py-12 border-t border-base-200 dark:border-base-800">
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 items-start">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-base-600 dark:text-base-300 uppercase"
+                data-editable={`projects.${project.slug}.year`}
+              >
+                {getContent(`projects.${project.slug}.year`, project.year)}
+              </Text>
+              <Text
+                tag="h3"
+                variant="displaySM"
+                class="text-base-900 dark:text-white leading-tight font-semibold "
+                data-editable={`projects.${project.slug}.title`}
+              >
+                {getContent(`projects.${project.slug}.title`, project.title)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-base-600 dark:text-base-300"
+                data-editable={`projects.${project.slug}.description`}
+              >
+                {getContent(`projects.${project.slug}.description`, project.description)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-base-600 dark:text-base-300 uppercase lg:ml-auto lg:col-start-4"
+                data-editable={`projects.${project.slug}.category`}
+              >
+                {getContent(`projects.${project.slug}.category`, project.category)}
+              </Text>
+            </div>
+            <PortfolioMediaLink href={`/projeto/${project.slug}`}>
+              <EditableImage
+                imageKey={`projects.${project.slug}.image`}
+                width={1200}
+                height={630}
+                src={defaultProjectImage}
+                alt={`Imagem do projeto ${project.title}`}
+                loading="lazy"
+                decoding="async"
+                class="size-full aspect-4/2 object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+            </PortfolioMediaLink>
+          </article>
+        ))
+      }
+    </div>
+  </Wrapper>
+</section>

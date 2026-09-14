@@ -1,0 +1,9 @@
+---
+import { getContent } from "@/lib/getContent";
+
+const { class: className = "", ...rest } = Astro.props;
+---
+
+<span class={className} data-editable="nav.logo" {...rest}>
+  {getContent("nav.logo", "lore")}
+</span>

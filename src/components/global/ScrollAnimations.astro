@@ -1,0 +1,25 @@
+<script>
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { initPageAnimations, refreshScrollAnimations } from "@/lib/scrollAnimations";
+
+  function setup() {
+    initPageAnimations();
+    window.setTimeout(() => ScrollTrigger.refresh(), 150);
+  }
+
+  window.addEventListener("page-loader-complete", setup, { once: true });
+
+  window.addEventListener("content-overrides-applied", () => {
+    refreshScrollAnimations();
+    window.setTimeout(() => ScrollTrigger.refresh(), 150);
+  });
+
+  const loader = document.getElementById("page-loader");
+  if (!loader) {
+    if (document.readyState === "complete") {
+      setup();
+    } else {
+      window.addEventListener("load", setup, { once: true });
+    }
+  }
+</script>

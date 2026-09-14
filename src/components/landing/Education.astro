@@ -1,0 +1,102 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { getContent } from "@/lib/getContent";
+
+const education = [
+  {
+    period: "Ano — Ano",
+    title: "Nome do curso ou instituição",
+    description:
+      "Descreva aqui sua formação, área de estudo e principais aprendizados.",
+    category: "Graduação",
+  },
+  {
+    period: "Ano — Ano",
+    title: "Nome do curso ou instituição",
+    description:
+      "Descreva aqui sua formação, área de estudo e principais aprendizados.",
+    category: "Pós-graduação",
+  },
+  {
+    period: "Ano — Ano",
+    title: "Nome do curso ou certificação",
+    description:
+      "Descreva aqui cursos, bootcamps ou certificações relevantes.",
+    category: "Curso / Certificação",
+  },
+];
+const educationEyebrowDefault = "Educação Sua formação";
+---
+
+<section class="scroll-mt-32" id="education">
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-4 items-start">
+      <div class="lg:col-start-2">
+        <Text
+          tag="p"
+          variant="textSM"
+          class="text-base-600 dark:text-base-300"
+          data-editable="sections.education.eyebrow"
+        >
+          {getContent("sections.education.eyebrow", educationEyebrowDefault)}
+        </Text>
+      </div>
+
+      <Text
+        tag="h2"
+        variant="textXL"
+        class="font-semibold leading-snug tracking-tighter lg:col-span-2 text-base-900 dark:text-white"
+        data-editable="sections.education.title"
+      >
+        {getContent("sections.education.title", "Educação")}
+      </Text>
+    </div>
+
+    <div class="flex flex-col gap-12 mt-12">
+      {
+        education.map((item, index) => (
+          <article class="py-12 border-t border-base-200 dark:border-base-800">
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 items-start">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-base-600 dark:text-base-300 uppercase"
+                data-editable={`education.${index}.period`}
+              >
+                {getContent(`education.${index}.period`, item.period)}
+              </Text>
+
+              <Text
+                tag="h3"
+                variant="textLG"
+                class="text-base-900 dark:text-white leading-tight font-semibold"
+                data-editable={`education.${index}.title`}
+              >
+                {getContent(`education.${index}.title`, item.title)}
+              </Text>
+
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-base-600 dark:text-base-300"
+                data-editable={`education.${index}.description`}
+              >
+                {getContent(`education.${index}.description`, item.description)}
+              </Text>
+
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-base-600 dark:text-base-300 uppercase lg:ml-auto lg:col-start-4"
+                data-editable={`education.${index}.category`}
+              >
+                {getContent(`education.${index}.category`, item.category)}
+              </Text>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </Wrapper>
+</section>

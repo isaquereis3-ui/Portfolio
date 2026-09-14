@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CaseDetail from "@/components/landing/CaseDetail.astro";
+import { getProjectItem, projectItems } from "@/data/portfolio";
+
+export function getStaticPaths() {
+  return projectItems.map((item) => ({
+    params: { slug: item.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const item = getProjectItem(slug!);
+
+if (!item) {
+  return Astro.redirect("/404");
+}
+---
+
+<BaseLayout>
+  <CaseDetail
+    item={item}
+    contentPrefix={`projects.${item.slug}`}
+    backHref="/#projects"
+    backLabel="Voltar para Projetos"
+    eyebrow="Bloco"
+  />
+</BaseLayout>

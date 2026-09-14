@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { getImageSrc } from "@/lib/getContent";
+
+interface Props {
+  imageKey: string;
+  src: ImageMetadata;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "auto" | "sync";
+}
+
+const {
+  imageKey,
+  src,
+  alt,
+  width,
+  height,
+  class: className = "",
+  loading = "lazy",
+  decoding = "async",
+} = Astro.props;
+
+const overrideSrc = getImageSrc(imageKey);
+---
+
+<div class="editable-image group/image relative">
+  {
+    overrideSrc ? (
+      <img
+        src={overrideSrc}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding={decoding}
+        class={className}
+        data-editable-image={imageKey}
+      />
+    ) : (
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding={decoding}
+        class={className}
+        data-editable-image={imageKey}
+      />
+    )
+  }
+  <span
+    class="editable-image-badge pointer-events-none absolute inset-0 hidden items-center justify-center bg-base-950/35 text-xs font-medium tracking-tight text-white"
+  >
+    Trocar imagem
+  </span>
+</div>

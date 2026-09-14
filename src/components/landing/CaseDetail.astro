@@ -1,0 +1,266 @@
+---
+import defaultProjectImage from "@/images/projects/default.svg";
+import EditableImage from "@/components/landing/EditableImage.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import type { PortfolioCase } from "@/data/portfolio";
+import { getContent } from "@/lib/getContent";
+
+interface Props {
+  item: PortfolioCase;
+  contentPrefix: string;
+  backHref: string;
+  backLabel: string;
+  eyebrow: string;
+}
+
+const { item, contentPrefix, backHref, backLabel, eyebrow } = Astro.props;
+
+const [contextBlock, processBlock, resultBlock] = item.detail.blocks;
+const key = (suffix: string) => `${contentPrefix}.${suffix}`;
+---
+
+<section class="pb-16 pt-32 lg:pb-32 lg:pt-40">
+  <Wrapper variant="standard">
+    <a
+      href={backHref}
+      class="text-xs tracking-tight text-base-600 transition-colors hover:text-accent-700 dark:text-base-300 dark:hover:text-accent-400"
+    >
+      ← {backLabel}
+    </a>
+
+    <div class="mt-8 grid grid-cols-1 gap-8 border-b border-base-200 pb-12 dark:border-base-800 lg:mt-12 lg:grid-cols-4 lg:items-start lg:gap-12">
+      <Text
+        tag="p"
+        variant="textXS"
+        class="uppercase text-base-600 dark:text-base-300"
+        data-editable={key("year")}
+      >
+        {getContent(key("year"), item.year)}
+      </Text>
+
+      <div class="lg:col-span-2">
+        <Text
+          tag="h1"
+          variant="displaySM"
+          class="font-semibold leading-tight tracking-tighter text-base-900 dark:text-white"
+          data-editable={key("title")}
+        >
+          {getContent(key("title"), item.title)}
+        </Text>
+        <Text
+          tag="p"
+          variant="textSM"
+          class="mt-6 text-base-600 dark:text-base-300"
+          data-editable={key("summary")}
+        >
+          {getContent(key("summary"), item.detail.summary)}
+        </Text>
+      </div>
+
+      <aside class="flex flex-col gap-6 border-t border-base-200 pt-6 dark:border-base-800 lg:border-t-0 lg:pt-0">
+        <Text
+          tag="p"
+          variant="textXS"
+          class="uppercase text-base-600 dark:text-base-300"
+          data-editable={key("category")}
+        >
+          {getContent(key("category"), item.category)}
+        </Text>
+        {
+          item.detail.meta.map((entry, index) => (
+            <div>
+              <Text
+                tag="p"
+                variant="textXS"
+                class="uppercase text-base-400 dark:text-base-500"
+                data-editable={key(`meta.${index}.label`)}
+              >
+                {getContent(key(`meta.${index}.label`), entry.label)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="mt-1 text-base-700 dark:text-base-200"
+                data-editable={key(`meta.${index}.value`)}
+              >
+                {getContent(key(`meta.${index}.value`), entry.value)}
+              </Text>
+            </div>
+          ))
+        }
+      </aside>
+    </div>
+
+    <EditableImage
+      imageKey={key("image")}
+      width={1420}
+      height={930}
+      src={defaultProjectImage}
+      alt={`Imagem principal de ${item.title}`}
+      class="mt-12 aspect-[16/10] w-full object-cover object-center lg:mt-16"
+    />
+
+    {
+      contextBlock && (
+        <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
+          <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-start">
+            <div class="lg:col-span-3">
+              <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+                {eyebrow} 01
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="mt-6 max-w-xs text-base-500 dark:text-base-400"
+                data-editable={key("blocks.0.aside")}
+              >
+                {getContent(key("blocks.0.aside"), contextBlock.aside)}
+              </Text>
+            </div>
+
+            <div class="lg:col-span-4">
+              <Text
+                tag="h2"
+                variant="textLG"
+                class="font-semibold leading-tight text-base-900 dark:text-white"
+                data-editable={key("blocks.0.heading")}
+              >
+                {getContent(key("blocks.0.heading"), contextBlock.heading)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="mt-4 text-base-600 dark:text-base-300"
+                data-editable={key("blocks.0.text")}
+              >
+                {getContent(key("blocks.0.text"), contextBlock.text)}
+              </Text>
+            </div>
+
+            <div class="lg:col-span-5">
+              <EditableImage
+                imageKey={key("image.context")}
+                width={900}
+                height={1100}
+                src={defaultProjectImage}
+                alt={`Imagem lateral — ${contextBlock.heading}`}
+                class="aspect-[4/5] w-full object-cover object-center"
+              />
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      processBlock && (
+        <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
+          <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center">
+            <div class="order-2 lg:order-1 lg:col-span-5">
+              <EditableImage
+                imageKey={key("image.process")}
+                width={900}
+                height={700}
+                src={defaultProjectImage}
+                alt={`Imagem — ${processBlock.heading}`}
+                class="aspect-[5/4] w-full object-cover object-center"
+              />
+            </div>
+
+            <div class="order-1 lg:order-2 lg:col-span-4 lg:col-start-8">
+              <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+                {eyebrow} 02
+              </Text>
+              <Text
+                tag="h2"
+                variant="textLG"
+                class="mt-2 font-semibold leading-tight text-base-900 dark:text-white"
+                data-editable={key("blocks.1.heading")}
+              >
+                {getContent(key("blocks.1.heading"), processBlock.heading)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="mt-4 text-base-600 dark:text-base-300"
+                data-editable={key("blocks.1.text")}
+              >
+                {getContent(key("blocks.1.text"), processBlock.text)}
+              </Text>
+            </div>
+
+            <div class="order-3 lg:col-span-3 lg:col-start-10 lg:row-start-1">
+              <Text
+                tag="p"
+                variant="textSM"
+                class="max-w-xs text-base-500 lg:ml-auto lg:text-right dark:text-base-400"
+                data-editable={key("blocks.1.aside")}
+              >
+                {getContent(key("blocks.1.aside"), processBlock.aside)}
+              </Text>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      resultBlock && (
+        <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
+            <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+              {eyebrow} 03
+            </Text>
+
+            <div class="lg:col-span-2">
+              <Text
+                tag="h2"
+                variant="textLG"
+                class="font-semibold leading-tight text-base-900 dark:text-white"
+                data-editable={key("blocks.2.heading")}
+              >
+                {getContent(key("blocks.2.heading"), resultBlock.heading)}
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="mt-4 text-base-600 dark:text-base-300"
+                data-editable={key("blocks.2.text")}
+              >
+                {getContent(key("blocks.2.text"), resultBlock.text)}
+              </Text>
+            </div>
+
+            <Text
+              tag="p"
+              variant="textSM"
+              class="text-base-500 lg:ml-auto lg:max-w-xs lg:text-right dark:text-base-400"
+              data-editable={key("blocks.2.aside")}
+            >
+              {getContent(key("blocks.2.aside"), resultBlock.aside)}
+            </Text>
+          </div>
+
+          <EditableImage
+            imageKey={key("image.result")}
+            width={1420}
+            height={930}
+            src={defaultProjectImage}
+            alt={`Imagem final — ${resultBlock.heading}`}
+            class="mt-10 aspect-[16/9] w-full object-cover object-center lg:mt-12"
+          />
+        </section>
+      )
+    }
+
+    <div class="mt-16 border-t border-base-200 pt-10 dark:border-base-800 lg:mt-24">
+      <a
+        href={backHref}
+        class="text-xs tracking-tight text-base-600 transition-colors hover:text-accent-700 dark:text-base-300 dark:hover:text-accent-400"
+      >
+        ← {backLabel}
+      </a>
+    </div>
+  </Wrapper>
+</section>

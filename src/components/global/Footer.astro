@@ -1,0 +1,43 @@
+---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Foundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import EditableLink from "@/components/global/EditableLink.astro";
+import { getContent } from "@/lib/getContent";
+
+const links = [
+  { href: "#_", text: "LinkedIn", key: "footer.linkedin" },
+  { href: "#_", text: "Arena", key: "footer.arena" },
+  { href: "#_", text: "GitHub", key: "footer.github" },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="py-6">
+  <Wrapper variant="standard" class="py-2">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 items-start">
+      <div
+        class="flex items-center gap-2 text-base-600 dark:text-base-300 text-xs tracking-tight"
+      >
+        {year}
+        <Logo />
+      </div>
+      <div class="flex flex-wrap gap-8 text-sm items-center">
+        {
+          links.map((link) => (
+            <EditableLink
+              linkKey={link.key}
+              textKey={link.key}
+              href={link.href}
+              class="text-base-600 text-xs tracking-tight transition-colors hover:text-accent-700 dark:text-base-300 dark:hover:text-accent-400"
+            >
+              {getContent(link.key, link.text)}
+            </EditableLink>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+</footer>

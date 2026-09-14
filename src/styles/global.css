@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "tailwind-scrollbar-hide";
+
+@theme {
+  /* Typography */
+  --font-sans: "Inter", sans-serif;
+  /* accent  */
+  --color-accent-50: oklch(0.982 0.029 125.9);
+  --color-accent-100: oklch(0.961 0.065 127.2);
+  --color-accent-200: oklch(0.925 0.122 129.7);
+  --color-accent-300: oklch(0.877 0.179 131.4);
+  --color-accent-400: oklch(0.839 0.199 132.6);
+  --color-accent-500: oklch(0.744 0.209 135);
+  --color-accent-600: oklch(0.628 0.18 135.7);
+  --color-accent-700: oklch(0.517 0.143 135.4);
+  --color-accent-800: oklch(0.441 0.115 134.8);
+  --color-accent-900: oklch(0.394 0.096 135);
+  --color-accent-950: oklch(0.268 0.069 135.7);
+  /* base*/
+  --color-base-50: oklch(0.985 0 0);
+  --color-base-100: oklch(0.97 0 0);
+  --color-base-200: oklch(0.922 0 0);
+  --color-base-300: oklch(0.87 0 0);
+  --color-base-400: oklch(0.708 0 0);
+  --color-base-500: oklch(0.556 0 0);
+  --color-base-600: oklch(0.439 0 0);
+  --color-base-700: oklch(0.371 0 0);
+  --color-base-800: oklch(0.269 0 0);
+  --color-base-900: oklch(0.205 0 0);
+  --color-base-950: oklch(0.145 0 0);
+}
+
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button {
+    cursor: none;
+  }
+}
+
+body.edit-mode-active.custom-cursor-active,
+body.edit-mode-active.custom-cursor-active [data-editable] {
+  cursor: text;
+}
+
+body.edit-mode-active [data-editable] {
+  outline: 1px dashed color-mix(in oklab, var(--color-accent-500) 70%, transparent);
+  outline-offset: 4px;
+  border-radius: 2px;
+  transition: outline-color 0.2s ease, background-color 0.2s ease;
+}
+
+body.edit-mode-active [data-editable]:focus {
+  outline: 2px solid var(--color-accent-500);
+  background-color: color-mix(in oklab, var(--color-accent-500) 8%, transparent);
+}
+
+body.edit-mode-active a:not([data-editable]):not([data-editable-link]),
+body.edit-mode-active [data-portfolio-media] {
+  pointer-events: none;
+}
+
+body.edit-mode-active [data-editable-link] {
+  pointer-events: auto;
+}
+
+body.edit-mode-active .editable-link-trigger {
+  display: inline-flex;
+  pointer-events: auto;
+}
+
+body.edit-mode-active [data-editable-image] {
+  cursor: pointer;
+  outline: 1px dashed color-mix(in oklab, var(--color-accent-500) 70%, transparent);
+  outline-offset: 4px;
+}
+
+body.edit-mode-active [data-editable-image],
+body.edit-mode-active .editable-image {
+  pointer-events: auto;
+}
+
+body.edit-mode-active .editable-image-badge {
+  display: flex;
+}
+
+.scroll-word-wrap {
+  padding-bottom: 0.08em;
+}
+
+.scroll-word {
+  will-change: transform, opacity, filter;
+}
